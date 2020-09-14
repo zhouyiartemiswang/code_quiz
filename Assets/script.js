@@ -25,12 +25,18 @@ const listAnswers = [
 ];
 
 const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
+
+// TODO: remove global variable currentIndex
 var currentIndex = 0;
 
-function displayQuestion() {
+function startPage() {
     document.querySelector("#start-page").style.display = "none";
     document.querySelector("#main").style.display = "block";
 
+    displayQuestion();
+}
+
+function displayQuestion() {
     document.querySelector("#question").textContent = listQuestions[currentIndex];
 
     for (var i = 0; i < listAnswers[currentIndex].length; i++) {
@@ -40,23 +46,36 @@ function displayQuestion() {
         answerButton.appendChild(document.createTextNode(i + 1 + ". " + listAnswers[currentIndex][i]));
         buttonContainer.appendChild(answerButton);
     }
-
-    document.querySelector("#main").addEventListener("click", checkAnswer);
 }
 
 function checkAnswer(event) {
-    // var userAnswer = event.target.textContent.split(".");
-    // var result = document.querySelector("#main");
+    if (event.target.matches("button")) {
+        var userAnswer = event.target.textContent.split(".");
+        var result = document.querySelector("#result");
+        result.textContent = "";
+        console.log(userAnswer[0]);
+        console.log(listCorrectAnswers[currentIndex]);
+        if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
+            result.textContent = "Correct!";
+        } else {
+            result.textContent = "Wrong!";
+        }
+        if (currentIndex < 10) {
+            currentIndex++; 
+            displayQuestion();
+        } else {
+            finalScore();
+        }
+    }
+}
 
-    // if (userAnswer[0] === listCorrectAnswers[currentIndex]) {
-    //     result = ""
-    //     document.querySelector("#main").appendChild()
-    // }
-    // console.log(userAnswer);
+function finalScore() {
+    console.log("Final Score");
 }
 
 function timer() {
     var timeLeft = 5;
 }
 
-document.querySelector("#start-page").addEventListener("click", displayQuestion);
+document.querySelector("#start-page").addEventListener("click", startPage);
+document.querySelector("#answer-container").addEventListener("click", checkAnswer);

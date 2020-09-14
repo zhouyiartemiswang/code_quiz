@@ -36,16 +36,29 @@ function startPage() {
     displayQuestion();
 }
 
+// Display question and answers on screen
 function displayQuestion() {
+    
+    var numAnswers = listAnswers[currentIndex].length; // Number of answer options for a specific question
+    var answerContainer = document.querySelector("#answer-container"); // Select all answers
+
+    // Display question extracted from listQuestions array
     document.querySelector("#question").textContent = listQuestions[currentIndex];
 
-    for (var i = 0; i < listAnswers[currentIndex].length; i++) {
-        var buttonContainer = document.querySelector("#answer-container").appendChild(document.createElement("li"));
-
-        var answerButton = document.createElement("button");
-        answerButton.appendChild(document.createTextNode(i + 1 + ". " + listAnswers[currentIndex][i]));
-        buttonContainer.appendChild(answerButton);
+    // If number of answer options are less than 4, then the remaining answers will not be displayed
+    if (numAnswers < 4) {
+        for (var j = numAnswers; j < 4; j++) {
+            answerContainer.children[j].style.display = "none";
+        }
     }
+
+    // For each answer, make sure style.display is turned on and display it
+
+    for (var i = 0; i < numAnswers; i++) {
+        answerContainer.children[i].style.display = "block";
+        answerContainer.children[i].children[0].textContent = i + 1 + ". " + listAnswers[currentIndex][i];
+    }
+
 }
 
 function checkAnswer(event) {
@@ -61,7 +74,7 @@ function checkAnswer(event) {
             result.textContent = "Wrong!";
         }
         if (currentIndex < 10) {
-            currentIndex++; 
+            currentIndex++;
             displayQuestion();
         } else {
             finalScore();

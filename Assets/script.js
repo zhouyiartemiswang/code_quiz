@@ -27,25 +27,36 @@ const listAnswers = [
 const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 var currentIndex = 0;
 
-function startQuiz() {
+function displayQuestion() {
     document.querySelector("#start-page").style.display = "none";
     document.querySelector("#main").style.display = "block";
-    displayQuestions();
+
+    document.querySelector("#question").textContent = listQuestions[currentIndex];
+
+    for (var i = 0; i < listAnswers[currentIndex].length; i++) {
+        var buttonContainer = document.querySelector("#answer-container").appendChild(document.createElement("li"));
+
+        var answerButton = document.createElement("button");
+        answerButton.appendChild(document.createTextNode(i + 1 + ". " + listAnswers[currentIndex][i]));
+        buttonContainer.appendChild(answerButton);
+    }
+
+    document.querySelector("#main").addEventListener("click", checkAnswer);
 }
 
-function displayQuestions() {
-    // document.querySelector("#question").textContent = listQuestions[currentIndex];
+function checkAnswer(event) {
+    // var userAnswer = event.target.textContent.split(".");
+    // var result = document.querySelector("#main");
 
-    // for (var i = 0; i < listAnswers[currentIndex].length; i++) {
-    //     document.querySelector("#answer").appendChild(document.createElement("li"));
-    //     var answerButton = document.createElement("button");
-    //     answerButton.appendChild(document.createTextNode('${i+1}'));
-
+    // if (userAnswer[0] === listCorrectAnswers[currentIndex]) {
+    //     result = ""
+    //     document.querySelector("#main").appendChild()
     // }
+    // console.log(userAnswer);
 }
 
 function timer() {
     var timeLeft = 5;
 }
 
-document.querySelector("#start-page").addEventListener("click", startQuiz);
+document.querySelector("#start-page").addEventListener("click", displayQuestion);

@@ -105,9 +105,21 @@ function finalScore(score) {
 
 }
 
+function storeInitials(event) {
+    event.preventDefault();
+
+    var userInitials = document.querySelector("#initials").value.trim();
+    console.log(userInitials);
+    localStorage.setItem("userInitials", userInitials);
+    localStorage.getItem("userInitials");
+    console.log(userInitials + " - " + score);
+}
+
 function timer() {
     var timeLeft = 5;
 }
 
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
+// document.querySelector("#submit-btn").addEventListener("click", storeInitials);
+document.querySelector("#initials-form").addEventListener("submit", storeInitials);

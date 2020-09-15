@@ -29,8 +29,10 @@ const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 
 // TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
+// TODO: fix localStorage refreshing problem
 var currentIndex = 0;
 var score = 0;
+var timeLeft = 50;
 
 // Hide start page, show questions
 function startPage() {
@@ -38,7 +40,19 @@ function startPage() {
     document.querySelector("#question-page").style.display = "block";
     document.querySelector("#final-score-page").style.display = "none";
     
+    timer();
     displayQuestion();
+}
+
+function timer() {
+    var timerInterval = setInterval(function() {
+        timeLeft--;
+        document.querySelector("#time").textContent = timeLeft;
+
+        if (timeLeft === 0) {
+            clearInterval(timerInterval);
+        }
+    }, 1000)
 }
 
 // Display question and answers on screen
@@ -77,13 +91,16 @@ function checkAnswer(event) {
         var result = document.querySelector("#result");
         result.textContent = "";
 
-        // If user clicks the correct answer, print out "Correct!" and scores 1 point, otherwise, print out "Wrong!"
+        // If user clicks the correct answer, print out "Correct!"
+        otherwise, print out "Wrong!"
         if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
             result.textContent = "Correct!";
             score++;
         } 
+        // If wrong, print out "Wrong!" and subtract 10 seconds from timer
         else {
             result.textContent = "Wrong!";
+            timeLeft -= 10;
         }
         
         // As long as there are unanswered questions, the next question will always show up
@@ -115,9 +132,6 @@ function storeInitials(event) {
     console.log(userInitials + " - " + score);
 }
 
-function timer() {
-    var timeLeft = 5;
-}
 
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);

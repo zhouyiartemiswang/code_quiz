@@ -30,26 +30,31 @@ const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 // TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
 // TODO: fix localStorage refreshing problem
-var currentIndex = 0;
-var score = 0;
-var timeLeft = 50;
+// TODO: fix final score calculation 
 
-// Hide start page, show questions
+var currentIndex = 0;
+var timerInterval = null;
+var timeLeft = 50;
+var numCorrect = 0;
+var numWrong = 0;
+
+// Hide start page and final score page, 
+// Start timer, show questions
 function startPage() {
     document.querySelector("#start-page").style.display = "none";
     document.querySelector("#question-page").style.display = "block";
     document.querySelector("#final-score-page").style.display = "none";
-    
+
     timer();
     displayQuestion();
 }
 
 function timer() {
-    var timerInterval = setInterval(function() {
+    timerInterval = setInterval(function() {
         timeLeft--;
         document.querySelector("#time").textContent = timeLeft;
 
-        if (timeLeft === 0) {
+        if (timeLeft <= 0) {
             clearInterval(timerInterval);
         }
     }, 1000)
@@ -92,33 +97,37 @@ function checkAnswer(event) {
         result.textContent = "";
 
         // If user clicks the correct answer, print out "Correct!"
-        otherwise, print out "Wrong!"
         if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
             result.textContent = "Correct!";
-            score++;
-        } 
+            numCorrect++;
+        }
         // If wrong, print out "Wrong!" and subtract 10 seconds from timer
         else {
             result.textContent = "Wrong!";
+            numWrong++;
             timeLeft -= 10;
         }
-        
+
         // As long as there are unanswered questions, the next question will always show up
         currentIndex++;
         if (currentIndex < 10) {
             displayQuestion();
-        } 
+        }
         // Once all the questions are answered, the final score page will be displayed
         else {
-            finalScore(score);
+            clearInterval(timerInterval);
+            finalScore();
         }
     }
 }
 
-function finalScore(score) {
+function finalScore() {
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "block";
-    document.querySelector("#final-score").textContent = score;
+    document.querySelector("#final-score").textContent = timeLeft;
+    console.log("numCorrect = " + numCorrect);
+    console.log("numWrong = " + numWrong);
+    console.log("Time left = " + timeLeft);
 
 }
 
@@ -129,7 +138,7 @@ function storeInitials(event) {
     console.log(userInitials);
     localStorage.setItem("userInitials", userInitials);
     localStorage.getItem("userInitials");
-    console.log(userInitials + " - " + score);
+    console.log(userInitials + " - " + timeLeft);
 }
 
 

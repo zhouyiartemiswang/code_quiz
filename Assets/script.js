@@ -8,7 +8,7 @@ const listQuestions = [
     "How do you create a function in JavaScript?",
     'How do you call a function named "myFunction"',
     "How to write an IF statement in JavaScript?",
-    "How do a WHILE loop start?", 
+    "How do a WHILE loop start?",
     "How can you add a comment in a JavaScript?"
 ];
 
@@ -31,10 +31,13 @@ const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 // TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
 // TODO: fix localStorage refreshing problem
+// TODO: add sound
+// TODO: add css
 
 var currentIndex = 0;
 var timerInterval;
-var timeLeft = 100;
+var maxTime = 100;
+var timeLeft = maxTime;
 var numCorrect = 0;
 var numWrong = 0;
 
@@ -51,7 +54,7 @@ function startPage() {
 }
 
 function timer() {
-    timerInterval = setInterval(function() {
+    timerInterval = setInterval(function () {
         timeLeft--;
         document.querySelector("#time").textContent = timeLeft;
 
@@ -134,19 +137,43 @@ function finalScore() {
 
 function storeInitials(event) {
     event.preventDefault();
+    // var a = [];
+    // a.push(JSON.parse(localStorage.getItem('session')));
+    // localStorage.setItem('session', JSON.stringify(a));
+    var arrayInitials = [];
+    var arrayScores = [];
+    var userInitials = "";
 
-    var userInitials = document.querySelector("#initials").value.trim();
-    // console.log(userInitials);
-    localStorage.setItem("userInitials", userInitials);
-    localStorage.setItem("userScore", timeLeft);
-    var scoreArray = [];
-    scoreArray.initials = localStorage.getItem("userInitials");
-    scoreArray.score = localStorage.getItem("userScore");
-    console.log(scoreArray);
+    console.log(localStorage.getItem("userInitials"));
+    arrayInitials = JSON.parse(localStorage.getItem("userInitials")) || [];
+    // arrayInitials = JSON.parse("ZW");
+    arrayScores = JSON.parse(localStorage.getItem("userScore")) || [];
+
+    userInitials = document.querySelector("#initials").value.trim();
+    arrayInitials.push(userInitials);
+    arrayScores.push(timeLeft);
+
+    localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
+    localStorage.setItem("userScore", JSON.stringify(arrayScores));
+    // scoreArray.push(JSON.parse(localStorage.getItem("userInitials")));
+    // localStorage.setItem("userInitials", JSON.stringify(scoreArray));
+    // console.log(scoreArray);
     // console.log(userInitials + " - " + timeLeft);
 
     leaderboard();
 }
+
+// function SaveDataToLocalStorage(data) {
+//     var a = [];
+//     // Parse the serialized data back into an array of objects
+//     a = JSON.parse(localStorage.getItem('session')) || [];
+//     // Push the new data (whether it be an object or anything else) onto the array
+//     a.push(data);
+//     // Alert the array value
+//     alert(a);  // Should be something like [Object array]
+//     // Re-serialize the array back into a string and store it in localStorage
+//     localStorage.setItem('session', JSON.stringify(a));
+// }
 
 function leaderboard() {
     document.querySelector("#header").style.display = "none";
@@ -161,11 +188,12 @@ function goBack() {
     document.querySelector("#leaderboard-page").style.display = "none";
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#time").textContent = 0;
+    timeLeft = maxTime;
+    currentIndex = 0;
 }
-
 
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
 document.querySelector("#submit-btn").addEventListener("click", storeInitials);
-document.querySelector("#go-back-btn").addEventListener("click", goBack);
 // document.querySelector("#initials-form").addEventListener("submit", storeInitials);
+document.querySelector("#go-back-btn").addEventListener("click", goBack);

@@ -24,8 +24,8 @@ const listAnswers = [
     ["<!-- This is a comment -->", "'This is a comment", "// This is a comment"]
 ];
 
-const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
-// const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
+// const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
+const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
 // TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
@@ -33,8 +33,8 @@ const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 // TODO: fix final score calculation 
 
 var currentIndex = 0;
-var timerInterval = null;
-var timeLeft = 50;
+var timerInterval;
+var timeLeft = 100;
 var numCorrect = 0;
 var numWrong = 0;
 
@@ -54,15 +54,14 @@ function timer() {
         timeLeft--;
         document.querySelector("#time").textContent = timeLeft;
 
-        if (timeLeft <= 0) {
-            clearInterval(timerInterval);
+        if (timeLeft === 0) {
+            finalScore();
         }
-    }, 1000)
+    }, 1000);
 }
 
 // Display question and answers on screen
 function displayQuestion(event) {
-    // event.preventDefault();
 
     var numAnswers = listAnswers[currentIndex].length; // Number of answer options for a specific question
     var answerContainer = document.querySelector("#answer-container"); // Select all answers
@@ -87,7 +86,6 @@ function displayQuestion(event) {
 
 // Check if user clicks the correct answer
 function checkAnswer(event) {
-    // event.preventDefault();
 
     // Make sure user only clicks buttons
     if (event.target.matches("button")) {
@@ -99,13 +97,16 @@ function checkAnswer(event) {
         // If user clicks the correct answer, print out "Correct!"
         if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
             result.textContent = "Correct!";
-            numCorrect++;
         }
         // If wrong, print out "Wrong!" and subtract 10 seconds from timer
         else {
             result.textContent = "Wrong!";
-            numWrong++;
-            timeLeft -= 10;
+            if (timeLeft >= 10) {
+                timeLeft -= 10;
+            } else {
+                timeLeft = 0;
+                finalScore();
+            }
         }
 
         // As long as there are unanswered questions, the next question will always show up
@@ -115,19 +116,17 @@ function checkAnswer(event) {
         }
         // Once all the questions are answered, the final score page will be displayed
         else {
-            clearInterval(timerInterval);
             finalScore();
         }
     }
 }
 
 function finalScore() {
+    clearInterval(timerInterval);
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "block";
     document.querySelector("#final-score").textContent = timeLeft;
-    console.log("numCorrect = " + numCorrect);
-    console.log("numWrong = " + numWrong);
-    console.log("Time left = " + timeLeft);
+    document.querySelector("#time").textContent = timeLeft;
 
 }
 
@@ -144,5 +143,5 @@ function storeInitials(event) {
 
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
-// document.querySelector("#submit-btn").addEventListener("click", storeInitials);
-document.querySelector("#initials-form").addEventListener("submit", storeInitials);
+document.querySelector("#submit-btn").addEventListener("click", storeInitials);
+// document.querySelector("#initials-form").addEventListener("submit", storeInitials);

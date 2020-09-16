@@ -37,6 +37,9 @@ var currentIndex = 0;
 var timerInterval;
 var timeLeft = maxTime;
 
+var correctSound = new Audio("Assets/correct_answer.mp3");
+var wrongSound = new Audio("Assets/wrong_answer.mp3");
+
 // Hide start page, final score page, leaderboard page
 // Start timer, show questions
 function startPage() {
@@ -98,10 +101,12 @@ function checkAnswer(event) {
         // If user clicks the correct answer, print out "Correct!"
         if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
             result.textContent = "Correct!";
+            correctSound.play();
         }
         // If wrong, print out "Wrong!" and subtract 10 seconds from timer
         else {
             result.textContent = "Wrong!";
+            wrongSound.play();
             if (timeLeft >= 10) {
                 timeLeft -= 10;
             } else {

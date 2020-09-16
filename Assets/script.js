@@ -28,18 +28,14 @@ const listAnswers = [
 // const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
-// TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
-// TODO: fix localStorage refreshing problem
 // TODO: add sound
 // TODO: add css
 
+const maxTime = 100;
 var currentIndex = 0;
 var timerInterval;
-var maxTime = 100;
 var timeLeft = maxTime;
-var numCorrect = 0;
-var numWrong = 0;
 
 // Hide start page, final score page, leaderboard page
 // Start timer, show questions
@@ -137,48 +133,87 @@ function finalScore() {
 
 function storeInitials(event) {
     event.preventDefault();
-    // var a = [];
-    // a.push(JSON.parse(localStorage.getItem('session')));
-    // localStorage.setItem('session', JSON.stringify(a));
+
     var arrayInitials = [];
     var arrayScores = [];
     var userInitials = "";
 
-    console.log(localStorage.getItem("userInitials"));
     arrayInitials = JSON.parse(localStorage.getItem("userInitials")) || [];
-    // arrayInitials = JSON.parse("ZW");
-    arrayScores = JSON.parse(localStorage.getItem("userScore")) || [];
+    arrayScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
     userInitials = document.querySelector("#initials").value.trim();
     arrayInitials.push(userInitials);
     arrayScores.push(timeLeft);
 
+    // var check = 0;
+    // console.log(timeLeft);
+    // console.log(arrayScores);
+    // check = arrayScores.findIndex(function(timeLeft) {
+    //     return timeLeft > arrayScores;
+    // });
+    // console.log(check);
+
+    // if (check != -1) {
+    //     console.log("check != -1");
+    //     arrayInitials.splice(check, 0, userInitials);
+    //     arrayScores.splice(check, 0, timeLeft);
+    // } else {
+    //     console.log("check = -1");
+    //     arrayInitials.push(userInitials);
+    //     arrayScores.push(timeLeft);
+    // }
+    // for (var i = 0; i < arrayScores.length; i++) {
+    //     if (timeLeft > arrayScores[i]) {
+    //         arrayInitials.splice(i, 0, userInitials);
+    //         arrayScores.splice(i, 0, timeLeft);
+            
+    //     }
+    //     if (i === arrayScores.length - 1) {
+    //         arrayInitials.push(userInitials);
+    //         arrayScores.push(timeLeft);
+    //     }
+    // }
+
     localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
-    localStorage.setItem("userScore", JSON.stringify(arrayScores));
-    // scoreArray.push(JSON.parse(localStorage.getItem("userInitials")));
-    // localStorage.setItem("userInitials", JSON.stringify(scoreArray));
-    // console.log(scoreArray);
-    // console.log(userInitials + " - " + timeLeft);
+    localStorage.setItem("userScores", JSON.stringify(arrayScores));
 
     leaderboard();
 }
-
-// function SaveDataToLocalStorage(data) {
-//     var a = [];
-//     // Parse the serialized data back into an array of objects
-//     a = JSON.parse(localStorage.getItem('session')) || [];
-//     // Push the new data (whether it be an object or anything else) onto the array
-//     a.push(data);
-//     // Alert the array value
-//     alert(a);  // Should be something like [Object array]
-//     // Re-serialize the array back into a string and store it in localStorage
-//     localStorage.setItem('session', JSON.stringify(a));
-// }
 
 function leaderboard() {
     document.querySelector("#header").style.display = "none";
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "block";
+
+    var arrayToSort = [];
+    arrayToSort.initialsToSort = JSON.parse(localStorage.getItem("userInitials"));
+    arrayToSort.scoresToSort = JSON.parse(localStorage.getItem("userScores"));
+
+    for (var i = 0 ; i < arrayToSort.scoresToSort.length; i++) {
+        console.log(arrayToSort);
+        for(var j = i + 1; j < arrayToSort.scoresToSort.length; j++) {
+            if(arrayToSort.scoresToSort[i] < arrayToSort.scoresToSort[j]) {
+                var temp = arrayToSort.scoresToSort[i];
+                arrayToSort.scoresToSort[i] = arrayToSort.scoresToSort[j];
+                arrayToSort.scoresToSort[j] = temp;
+
+                var temp2 = arrayToSort.initialsToSort[i];
+                arrayToSort.initialsToSort[i] = arrayToSort.initialsToSort[j];
+                arrayToSort.initialsToSort[j] = temp2;
+            }
+        }
+    }
+
+    while (document.querySelector("#score-container").hasChildNodes()) {
+        document.querySelector("#score-container").removeChild(document.querySelector("#score-container").firstChild);
+    }
+
+    for (var k = 0; k < arrayToSort.scoresToSort.length; k++) {
+        var listScore = document.createElement("li");
+        listScore.textContent = k + 1 + ". " + arrayToSort.initialsToSort[k] + " - " + arrayToSort.scoresToSort[k];
+        document.querySelector("#score-container").appendChild(listScore);
+    }
+
 }
 
 function goBack() {
@@ -187,9 +222,13 @@ function goBack() {
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "none";
     document.querySelector("#question-page").style.display = "none";
-    document.querySelector("#time").textContent = 0;
     timeLeft = maxTime;
     currentIndex = 0;
+}
+
+function clearLeaderboard() {
+    localStorage.clear();
+    document.querySelector("#score-container").style.display = "none";
 }
 
 document.querySelector("#start-page").addEventListener("click", startPage);
@@ -197,3 +236,4 @@ document.querySelector("#answer-container").addEventListener("click", checkAnswe
 document.querySelector("#submit-btn").addEventListener("click", storeInitials);
 // document.querySelector("#initials-form").addEventListener("submit", storeInitials);
 document.querySelector("#go-back-btn").addEventListener("click", goBack);
+document.querySelector("#clear-btn").addEventListener("click", clearLeaderboard);

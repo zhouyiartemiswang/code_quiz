@@ -8,7 +8,8 @@ const listQuestions = [
     "How do you create a function in JavaScript?",
     'How do you call a function named "myFunction"',
     "How to write an IF statement in JavaScript?",
-    "How do a WHILE loop start?", "How can you add a comment in a JavaScript?"
+    "How do a WHILE loop start?", 
+    "How can you add a comment in a JavaScript?"
 ];
 
 const listAnswers = [
@@ -30,7 +31,6 @@ const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 // TODO: remove global variable currentIndex
 // TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
 // TODO: fix localStorage refreshing problem
-// TODO: fix final score calculation 
 
 var currentIndex = 0;
 var timerInterval;
@@ -38,12 +38,13 @@ var timeLeft = 100;
 var numCorrect = 0;
 var numWrong = 0;
 
-// Hide start page and final score page, 
+// Hide start page, final score page, leaderboard page
 // Start timer, show questions
 function startPage() {
     document.querySelector("#start-page").style.display = "none";
-    document.querySelector("#question-page").style.display = "block";
     document.querySelector("#final-score-page").style.display = "none";
+    document.querySelector("#leaderboard-page").style.display = "none";
+    document.querySelector("#question-page").style.display = "block";
 
     timer();
     displayQuestion();
@@ -57,11 +58,12 @@ function timer() {
         if (timeLeft === 0) {
             finalScore();
         }
+
     }, 1000);
 }
 
 // Display question and answers on screen
-function displayQuestion(event) {
+function displayQuestion() {
 
     var numAnswers = listAnswers[currentIndex].length; // Number of answer options for a specific question
     var answerContainer = document.querySelector("#answer-container"); // Select all answers
@@ -134,14 +136,36 @@ function storeInitials(event) {
     event.preventDefault();
 
     var userInitials = document.querySelector("#initials").value.trim();
-    console.log(userInitials);
+    // console.log(userInitials);
     localStorage.setItem("userInitials", userInitials);
-    localStorage.getItem("userInitials");
-    console.log(userInitials + " - " + timeLeft);
+    localStorage.setItem("userScore", timeLeft);
+    var scoreArray = [];
+    scoreArray.initials = localStorage.getItem("userInitials");
+    scoreArray.score = localStorage.getItem("userScore");
+    console.log(scoreArray);
+    // console.log(userInitials + " - " + timeLeft);
+
+    leaderboard();
+}
+
+function leaderboard() {
+    document.querySelector("#header").style.display = "none";
+    document.querySelector("#final-score-page").style.display = "none";
+    document.querySelector("#leaderboard-page").style.display = "block";
+}
+
+function goBack() {
+    document.querySelector("#header").style.display = "block";
+    document.querySelector("#start-page").style.display = "block";
+    document.querySelector("#final-score-page").style.display = "none";
+    document.querySelector("#leaderboard-page").style.display = "none";
+    document.querySelector("#question-page").style.display = "none";
+    document.querySelector("#time").textContent = 0;
 }
 
 
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
 document.querySelector("#submit-btn").addEventListener("click", storeInitials);
+document.querySelector("#go-back-btn").addEventListener("click", goBack);
 // document.querySelector("#initials-form").addEventListener("submit", storeInitials);

@@ -9,73 +9,62 @@
 </head>
 
 <body>
-    <!-- Start Page -->
+
+    <section class="container">
+
+        <!-- Start Page -->
+        <section id="header">
+            <p id="view-leaderboard">View Leaderboard</p>
+            <p id="timer">Time: <span id="time">0</span></p>
     
-    <!-- Leaderboard, click to show scores and names -->
-    <section id="header">
-        <span>View Leaderboard</span>
-        <br>
-        <!-- Timer Time: 0 -->
-        <p>Time: <span id="time">0</span></p>
-
-    </section>
+        </section>
     
-    <section id="start-page">
-        <!-- Heading 1: Coding Quiz Challenge-->
-        <h1>Coding Quiz Challenge</h1>
+        <section id="start-page">
     
-        <!-- Paragraph text -->
-        <p>Try to answer the following code-related questions within the time limit. keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+            <h1>Coding Quiz Challenge</h1>
+            <p>Try to answer the following code-related questions within the time limit. keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+            <button id="start-btn">Start Quiz</button>
+        </section>
+    
+        <!-- Question Page -->
+        <section id="question-page">
+    
+            <h3 id="question"></h3>
+            <ul id="answer-container">
+                <li id="answer1"><button></button></li>
+                <li id="answer2"><button></button></li>
+                <li id="answer3"><button></button></li>
+                <li id="answer4"><button></button></li>
+            </ul>
+            <span id="result"></span>
+            
+        </section>
+    
+        <!-- Final Score Page -->
+        <section id="final-score-page">
 
-        <!-- Button: Start Quiz, click to start first question -->
-        <button>Start Quiz</button>
+            <h3>All Done!</h3>
+            <p>Your final score is <span id="final-score"></span>.</p>
+            
+            <form id="initials-form">
+                <label>Enter initials: </label>
+                <input type="text" id="initials">
+                <button id="submit-btn">Submit</button>
+            </form>
+    
+        </section>
+    
+        <!-- Leaderboard Page -->
+        <section id="leaderboard-page">
+            
+            <h2>Leaderboard</h2>
+            <ul id="score-container"></ul>
+            <button id="go-back-btn">Go Back</button>
+            <button id="clear-btn">Clear Leaderboard</button>
+    
+        </section>
     </section>
 
-    <!-- Question Page -->
-    <section id="question-page">
-
-        <!-- Heading 3: Question -->
-        <h3 id="question"></h3>
-        <!-- List Button: Answers -->
-        <ul id="answer-container">
-            <li id="answer1"><button></button></li>
-            <li id="answer2"><button></button></li>
-            <li id="answer3"><button></button></li>
-            <li id="answer4"><button></button></li>
-        </ul>
-        <!-- If answered correctly, show "Correct!", play a sound and go to next question -->
-        <!-- If answered incorrectly, show "Wrong!" and go to next question -->
-        <span id="result"></span>
-        <!-- Go to next question -->
-    </section>
-
-    <!-- Final Score Page -->
-    <section id="final-score-page"> 
-        <!-- Heading 3: All Done! -->
-        <h3>All Done!</h3>
-        <!-- Paragraph text: Your final score is ___ . -->
-        <p>Your final score is <span id="final-score"></span>.</p>
-        <!-- Enter initials: form with submit button -->
-        <form id="initials-form">
-            <label>Enter initials: </label>
-            <input type="text" id="initials">
-            <button id="submit-btn">Submit</button>
-        </form>
-
-    </section>
-
-    <!-- Leaderboard Page -->
-    <section id="leaderboard-page">
-        <!-- Heading 2: Leaderboard -->
-        <h2>Leaderboard</h2>
-        <!-- List: 1. Initial - Score -->
-        <ul id="score-container"></ul>
-        <!-- Button: Go Back -->
-        <button id="go-back-btn">Go Back</button>
-        <!-- Button: Clear Leaderboard -->
-        <button id="clear-btn">Clear Leaderboard</button>
-
-    </section>
     <script type="text/javascript" src="Assets/script.js"></script>
 </body>
 

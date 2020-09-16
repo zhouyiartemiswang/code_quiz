@@ -28,6 +28,7 @@ const listAnswers = [
 // const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
+// TODO: view leaderboard then go back, check destination
 const maxTime = 100;
 var currentIndex = 0;
 var timerInterval;
@@ -169,6 +170,8 @@ function storeInitials(event) {
 function leaderboard() {
 
     document.querySelector("#header").style.display = "none";
+    document.querySelector("#start-page").style.display = "none";
+    document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "block";
 
@@ -220,8 +223,9 @@ function clearLeaderboard() {
     document.querySelector("#score-container").style.display = "none";
 }
 
-document.querySelector("#start-page").addEventListener("click", startPage);
+document.querySelector("#start-btn").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
 document.querySelector("#submit-btn").addEventListener("click", storeInitials);
 document.querySelector("#go-back-btn").addEventListener("click", goBack);
 document.querySelector("#clear-btn").addEventListener("click", clearLeaderboard);
+document.querySelector("#view-leaderboard").addEventListener("click", leaderboard);

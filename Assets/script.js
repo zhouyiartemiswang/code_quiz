@@ -28,10 +28,6 @@ const listAnswers = [
 // const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
-// TODO: add setTimeout to result so correct and wrong and stay on page for a little bit
-// TODO: add sound
-// TODO: add css
-
 const maxTime = 100;
 var currentIndex = 0;
 var timerInterval;
@@ -43,6 +39,7 @@ var wrongSound = new Audio("Assets/wrong_answer.mp3");
 // Hide start page, final score page, leaderboard page
 // Start timer, show questions
 function startPage() {
+
     document.querySelector("#start-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "none";
@@ -50,9 +47,11 @@ function startPage() {
 
     timer();
     displayQuestion();
+
 }
 
 function timer() {
+
     timerInterval = setInterval(function () {
         timeLeft--;
         document.querySelector("#time").textContent = timeLeft;
@@ -62,6 +61,7 @@ function timer() {
         }
 
     }, 1000);
+
 }
 
 // Display question and answers on screen
@@ -97,13 +97,14 @@ function checkAnswer(event) {
         var userAnswer = event.target.textContent.split("."); // Separate string of user's answer, userAnswer[0] = answer number, userAnswer[1] = answer text
         var result = document.querySelector("#result");
         result.textContent = "";
+        result.style.visibility = "visible";
 
-        // If user clicks the correct answer, print out "Correct!"
+        // If user clicks the correct answer, print out "Correct!" and play a ding sound
         if (userAnswer[0] == listCorrectAnswers[currentIndex]) {
             result.textContent = "Correct!";
             correctSound.play();
         }
-        // If wrong, print out "Wrong!" and subtract 10 seconds from timer
+        // If wrong, print out "Wrong!", play a buzz sound and subtract 10 seconds from timer
         else {
             result.textContent = "Wrong!";
             wrongSound.play();
@@ -115,6 +116,11 @@ function checkAnswer(event) {
             }
         }
 
+        // Only show "Correct!" and "Wrong!" for 1 second
+        setTimeout(function() {
+            result.style.visibility = "hidden";
+        }, 1000);
+
         // As long as there are unanswered questions, the next question will always show up
         currentIndex++;
         if (currentIndex < 10) {
@@ -125,9 +131,11 @@ function checkAnswer(event) {
             finalScore();
         }
     }
+
 }
 
 function finalScore() {
+
     clearInterval(timerInterval);
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "block";
@@ -137,6 +145,7 @@ function finalScore() {
 }
 
 function storeInitials(event) {
+
     event.preventDefault();
 
     var arrayInitials = [];
@@ -150,42 +159,15 @@ function storeInitials(event) {
     arrayInitials.push(userInitials);
     arrayScores.push(timeLeft);
 
-    // var check = 0;
-    // console.log(timeLeft);
-    // console.log(arrayScores);
-    // check = arrayScores.findIndex(function(timeLeft) {
-    //     return timeLeft > arrayScores;
-    // });
-    // console.log(check);
-
-    // if (check != -1) {
-    //     console.log("check != -1");
-    //     arrayInitials.splice(check, 0, userInitials);
-    //     arrayScores.splice(check, 0, timeLeft);
-    // } else {
-    //     console.log("check = -1");
-    //     arrayInitials.push(userInitials);
-    //     arrayScores.push(timeLeft);
-    // }
-    // for (var i = 0; i < arrayScores.length; i++) {
-    //     if (timeLeft > arrayScores[i]) {
-    //         arrayInitials.splice(i, 0, userInitials);
-    //         arrayScores.splice(i, 0, timeLeft);
-            
-    //     }
-    //     if (i === arrayScores.length - 1) {
-    //         arrayInitials.push(userInitials);
-    //         arrayScores.push(timeLeft);
-    //     }
-    // }
-
     localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
     localStorage.setItem("userScores", JSON.stringify(arrayScores));
 
     leaderboard();
+
 }
 
 function leaderboard() {
+
     document.querySelector("#header").style.display = "none";
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "block";
@@ -194,10 +176,10 @@ function leaderboard() {
     arrayToSort.initialsToSort = JSON.parse(localStorage.getItem("userInitials"));
     arrayToSort.scoresToSort = JSON.parse(localStorage.getItem("userScores"));
 
-    for (var i = 0 ; i < arrayToSort.scoresToSort.length; i++) {
+    for (var i = 0; i < arrayToSort.scoresToSort.length; i++) {
         console.log(arrayToSort);
-        for(var j = i + 1; j < arrayToSort.scoresToSort.length; j++) {
-            if(arrayToSort.scoresToSort[i] < arrayToSort.scoresToSort[j]) {
+        for (var j = i + 1; j < arrayToSort.scoresToSort.length; j++) {
+            if (arrayToSort.scoresToSort[i] < arrayToSort.scoresToSort[j]) {
                 var temp = arrayToSort.scoresToSort[i];
                 arrayToSort.scoresToSort[i] = arrayToSort.scoresToSort[j];
                 arrayToSort.scoresToSort[j] = temp;
@@ -222,6 +204,7 @@ function leaderboard() {
 }
 
 function goBack() {
+
     document.querySelector("#header").style.display = "block";
     document.querySelector("#start-page").style.display = "block";
     document.querySelector("#final-score-page").style.display = "none";
@@ -232,6 +215,7 @@ function goBack() {
 }
 
 function clearLeaderboard() {
+
     localStorage.clear();
     document.querySelector("#score-container").style.display = "none";
 }
@@ -239,6 +223,5 @@ function clearLeaderboard() {
 document.querySelector("#start-page").addEventListener("click", startPage);
 document.querySelector("#answer-container").addEventListener("click", checkAnswer);
 document.querySelector("#submit-btn").addEventListener("click", storeInitials);
-// document.querySelector("#initials-form").addEventListener("submit", storeInitials);
 document.querySelector("#go-back-btn").addEventListener("click", goBack);
 document.querySelector("#clear-btn").addEventListener("click", clearLeaderboard);

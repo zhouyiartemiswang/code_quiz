@@ -1,9 +1,22 @@
+html,
+body,
+.container {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    margin: 10% 30% 10% 30%;
+    /* margin: 10% 30% 10% 30%; */
+    color:#444444;
+    font-family: 'Noto Serif', serif;
 }
 
 .container {
-    border: 2px solid black;
+    padding: 40px;
+    border: 2px solid #444444;
+    border-radius: 8px;
+    margin: 100px;
 }
 
 #question-page, #final-score-page, #leaderboard-page {
@@ -15,29 +28,74 @@ ul {
 }
 
 h1, h2 {
+    font-family: 'Abril Fatface', cursive;
+    font-size: 40px;
     text-align: center;
 } 
 
-
 #start-page, #question-page, #final-score-page, #leaderboard-page {
-    float: left;
-    margin: 10%;
-    position: relative;
-    top: 100px;
+    margin: 15%;
 }
 
 #view-leaderboard {
     float:left;
-    height: 10px;
 }
 
 #timer {
     float: right;
 }
 
+li {
+    margin: 4px 2px;
+}
+
+button, input[type="text"], #score-container {
+    padding: 10px 24px;
+    text-align: center;
+    font-size: 14px;
+    font-family: 'Noto Serif', serif;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: white; 
+    border: 2px solid #444444;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:hover {
+    background-color: #444444;
+    color: white;
+}
+
+input:focus {
+    outline: none;
+}
+
+p, form {
+    text-align: center;
+}
+
+#score-container {
+    width: 50%;
+    height: 350px;
+    margin: 0 auto;
+    margin-bottom: 3%;
+    text-align: justify;
+}
+
 #start-btn {
-    margin: -20px -50px; 
-    position:relative;
-    top:50%; 
-    left:50%;
+    margin-top: 4%;
+    margin-left: 37%;
+    width: 25%;
+}
+
+#go-back-btn {
+    margin-left: 21%;
+    width: 25%;
+}
+
+#clear-btn {
+    width: 31.5%;
 }

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Noto+Serif&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="Assets/style.css">
     <title>Code Quiz</title>
 </head>
@@ -16,52 +17,56 @@
         <section id="header">
             <p id="view-leaderboard">View Leaderboard</p>
             <p id="timer">Time: <span id="time">0</span></p>
-    
+
         </section>
-    
+
         <section id="start-page">
-    
+
             <h1>Coding Quiz Challenge</h1>
-            <p>Try to answer the following code-related questions within the time limit. keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+            <p>Try to answer the following code-related questions within the time limit. keep in mind that incorrect
+                answers will penalize your score/time by ten seconds!</p>
+
             <button id="start-btn">Start Quiz</button>
+
         </section>
-    
+
         <!-- Question Page -->
         <section id="question-page">
-    
+
             <h3 id="question"></h3>
             <ul id="answer-container">
-                <li id="answer1"><button></button></li>
-                <li id="answer2"><button></button></li>
-                <li id="answer3"><button></button></li>
-                <li id="answer4"><button></button></li>
+                <li class="answer-btn"><button></button></li>
+                <li class="answer-btn"><button></button></li>
+                <li class="answer-btn"><button></button></li>
+                <li class="answer-btn"><button></button></li>
             </ul>
             <span id="result"></span>
-            
+
         </section>
-    
+
         <!-- Final Score Page -->
         <section id="final-score-page">
 
-            <h3>All Done!</h3>
+            <h2>All Done!</h2>
             <p>Your final score is <span id="final-score"></span>.</p>
-            
+
             <form id="initials-form">
-                <label>Enter initials: </label>
-                <input type="text" id="initials">
+                <input type="text" id="initials" placeholder="Enter initials">
                 <button id="submit-btn">Submit</button>
             </form>
-    
+
         </section>
-    
+
         <!-- Leaderboard Page -->
         <section id="leaderboard-page">
-            
+
             <h2>Leaderboard</h2>
             <ul id="score-container"></ul>
+
             <button id="go-back-btn">Go Back</button>
             <button id="clear-btn">Clear Leaderboard</button>
-    
+
+
         </section>
     </section>
 

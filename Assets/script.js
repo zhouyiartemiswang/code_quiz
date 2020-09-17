@@ -28,7 +28,6 @@ const listAnswers = [
 // const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
-// TODO: view leaderboard then go back, check destination
 const maxTime = 100;
 var currentIndex = 0;
 var timerInterval;
@@ -132,12 +131,13 @@ function checkAnswer(event) {
             finalScore();
         }
     }
-
+    
 }
 
 function finalScore() {
-
+    
     clearInterval(timerInterval);
+
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "block";
     document.querySelector("#final-score").textContent = timeLeft;
@@ -180,7 +180,6 @@ function leaderboard() {
     arrayToSort.scoresToSort = JSON.parse(localStorage.getItem("userScores"));
 
     for (var i = 0; i < arrayToSort.scoresToSort.length; i++) {
-        console.log(arrayToSort);
         for (var j = i + 1; j < arrayToSort.scoresToSort.length; j++) {
             if (arrayToSort.scoresToSort[i] < arrayToSort.scoresToSort[j]) {
                 var temp = arrayToSort.scoresToSort[i];
@@ -213,6 +212,8 @@ function goBack() {
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "none";
     document.querySelector("#question-page").style.display = "none";
+    document.querySelector("#time").textContent= 0;
+
     timeLeft = maxTime;
     currentIndex = 0;
 }

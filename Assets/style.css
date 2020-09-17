@@ -78,8 +78,9 @@ p, form {
 }
 
 #score-container {
-    width: 50%;
+    width: 45%;
     height: 350px;
+    padding: 10px 40px 10px 40px;
     margin: 0 auto;
     margin-bottom: 3%;
     text-align: justify;

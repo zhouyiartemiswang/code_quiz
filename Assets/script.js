@@ -28,7 +28,7 @@ const listAnswers = [
 // const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
 const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
-const maxTime = 100;
+const maxTime = 50;
 var currentIndex = 0;
 var timerInterval;
 var timeLeft = maxTime;
@@ -157,13 +157,16 @@ function storeInitials(event) {
     arrayScores = JSON.parse(localStorage.getItem("userScores")) || [];
 
     userInitials = document.querySelector("#initials").value.trim();
-    arrayInitials.push(userInitials);
-    arrayScores.push(timeLeft);
+    if (userInitials) {
+        arrayInitials.push(userInitials);
+        arrayScores.push(timeLeft);
+    
+        localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
+        localStorage.setItem("userScores", JSON.stringify(arrayScores));
+    
+        leaderboard();
 
-    localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
-    localStorage.setItem("userScores", JSON.stringify(arrayScores));
-
-    leaderboard();
+    }
 
 }
 

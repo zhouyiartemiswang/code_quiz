@@ -7,13 +7,14 @@ html, body, .container {
 body {
     color:#444444;
     font-family: 'Noto Serif', serif;
+    font-size: 1.3vw;
 }
 
 .container {
     padding: 10vw;
-    border: 2px solid #444444;
-    border-radius: 8px;
-    margin: 10vw;
+    border: 0.2vw solid #444444;
+    border-radius: 2vw;
+    margin: 7vw;
 }
 
 #question-page, #final-score-page, #leaderboard-page {
@@ -26,10 +27,13 @@ ul {
 
 h1, h2 {
     font-family: 'Abril Fatface', cursive;
-    /* font-size: 40px; */
-    font-size: 3em;
+    font-size: 4vw;
     text-align: center;
 } 
+
+h3 {
+    font-size: 2vw;
+}
 
 #start-page, #question-page, #final-score-page, #leaderboard-page {
     margin: 15vw 5vw;
@@ -49,16 +53,15 @@ li {
 }
 
 button, input[type="text"], #score-container {
-    padding: 10px 24px;
+    padding: 0.8vw 1.5vw;
     text-align: center;
-    /* font-size: 14px; */
-    font-size: 0.8em;
+    font-size: 1.3vw;
     font-family: 'Noto Serif', serif;
-    margin: 4px 2px;
-    border-radius: 6px;
+    margin: 0.2vw 0.1vw;
+    border-radius: 0.6vw;
     cursor: pointer;
     background-color: white; 
-    border: 2px solid #444444;
+    border: 0.2vw solid #444444;
 }
 
 button:focus, input:focus {
@@ -76,8 +79,7 @@ p, form {
 
 #score-container {
     width: 25vw;
-    height: 350px;
-    padding: 10px 40px 10px 40px;
+    padding: 2vw 4vw;
     margin: 0 auto;
     margin-bottom: 1vw;
     text-align: justify;
@@ -85,15 +87,15 @@ p, form {
 
 #start-btn {
     margin-top: 2vw;
-    margin-left: 17vw;
+    margin-left: 20vw;
     width: 15vw;
 }
 
 #go-back-btn {
-    margin-left: 9vw;
+    margin-left: 11vw;
     width: 15vw;
 }
 
 #clear-btn {
-    width: 16vw;
+    width: 18vw;
 }

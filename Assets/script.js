@@ -25,10 +25,10 @@ const listAnswers = [
     ["<!-- This is a comment -->", "'This is a comment", "// This is a comment"]
 ];
 
-// const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
-const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
+const listCorrectAnswers = [1, 1, 2, 1, 4, 1, 1, 1, 1, 3];
+// const listCorrectAnswers = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // Test answer array
 
-const maxTime = 50;
+const maxTime = 100;
 var currentIndex = 0;
 var timerInterval;
 var timeLeft = maxTime;
@@ -160,49 +160,51 @@ function storeInitials(event) {
     if (userInitials) {
         arrayInitials.push(userInitials);
         arrayScores.push(timeLeft);
-    
+        
         localStorage.setItem("userInitials", JSON.stringify(arrayInitials));
         localStorage.setItem("userScores", JSON.stringify(arrayScores));
-    
+        
         leaderboard();
-
     }
-
+    
 }
 
 function leaderboard() {
-
+    // event.preventDefault();
+    
     document.querySelector("#header").style.display = "none";
     document.querySelector("#start-page").style.display = "none";
     document.querySelector("#question-page").style.display = "none";
     document.querySelector("#final-score-page").style.display = "none";
     document.querySelector("#leaderboard-page").style.display = "block";
+    document.querySelector("#score-container").style.display = "block";
 
-    var arrayToSort = [];
-    arrayToSort.initialsToSort = JSON.parse(localStorage.getItem("userInitials"));
-    arrayToSort.scoresToSort = JSON.parse(localStorage.getItem("userScores"));
+    var initialsToSort = [];
+    var scoresToSort = [];
+    initialsToSort = JSON.parse(localStorage.getItem("userInitials"));
+    scoresToSort = JSON.parse(localStorage.getItem("userScores"));
 
-    for (var i = 0; i < arrayToSort.scoresToSort.length; i++) {
-        for (var j = i + 1; j < arrayToSort.scoresToSort.length; j++) {
-            if (arrayToSort.scoresToSort[i] < arrayToSort.scoresToSort[j]) {
-                var temp = arrayToSort.scoresToSort[i];
-                arrayToSort.scoresToSort[i] = arrayToSort.scoresToSort[j];
-                arrayToSort.scoresToSort[j] = temp;
-
-                var temp2 = arrayToSort.initialsToSort[i];
-                arrayToSort.initialsToSort[i] = arrayToSort.initialsToSort[j];
-                arrayToSort.initialsToSort[j] = temp2;
+    for (var i = 0; i < scoresToSort.length; i++) {
+        for (var j = i + 1; j < scoresToSort.length; j++) {
+            if (scoresToSort[i] < scoresToSort[j]) {
+                var temp = scoresToSort[i];
+                scoresToSort[i] = scoresToSort[j];
+                scoresToSort[j] = temp;
+                
+                var temp2 = initialsToSort[i];
+                initialsToSort[i] = initialsToSort[j];
+                initialsToSort[j] = temp2;
             }
         }
     }
-
+    
     while (document.querySelector("#score-container").hasChildNodes()) {
         document.querySelector("#score-container").removeChild(document.querySelector("#score-container").firstChild);
     }
 
-    for (var k = 0; k < arrayToSort.scoresToSort.length; k++) {
+    for (var k = 0; k < scoresToSort.length; k++) {
         var listScore = document.createElement("li");
-        listScore.textContent = k + 1 + ". " + arrayToSort.initialsToSort[k] + " - " + arrayToSort.scoresToSort[k];
+        listScore.textContent = k + 1 + ". " + initialsToSort[k] + " - " + scoresToSort[k];
         document.querySelector("#score-container").appendChild(listScore);
     }
 
